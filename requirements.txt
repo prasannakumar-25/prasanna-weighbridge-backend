@@ -1,0 +1,10 @@
+Jinja2
+Flask
+Flask-JWT-Extended
+SQLAlchemy
+python-dotenv
+pymysql
+sqlalchemy
+cryptography
+flask_bcrypt
+flask_cors
