@@ -15,7 +15,7 @@ def admin_register():
         
         
         username = data.get("User_name")
-        shortname = data.get("Shortname")
+        shortname = data.get("Shortname") 
         password = data.get("Password")
         role = data.get("Role")
         vendor_id = data.get("Vendor_Id")
