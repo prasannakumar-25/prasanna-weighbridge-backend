@@ -142,9 +142,9 @@ class WeighmentDetails(Base):
 
     Weighment_Id = Column(Integer, primary_key=True, autoincrement=True)
     Ticket_no = Column(String(20), unique=True, nullable=False)
-
-    Vendor_Id = Column(Integer, ForeignKey("vendor.Vendor_Id", ondelete="CASCADE", onupdate="CASCADE"), nullable=False)
-    Machine_Id = Column(Integer, ForeignKey("machine.Machine_Id", ondelete="CASCADE", onupdate="CASCADE"), nullable=False)
+ 
+    # Vendor_Id = Column(Integer, ForeignKey("vendor.Vendor_Id", ondelete="CASCADE", onupdate="CASCADE"), nullable=False)      # ------Deleted-----------------
+    # Machine_Id = Column(Integer, ForeignKey("machine.Machine_Id", ondelete="CASCADE", onupdate="CASCADE"), nullable=False)     # ------Deleted-----------------
     Customer_Id = Column(Integer, ForeignKey("customer.Customer_Id", ondelete="CASCADE", onupdate="CASCADE"), nullable=True)
     Vehicle_Id = Column(Integer, ForeignKey("vehicle_type.Vehicle_Id", ondelete="CASCADE", onupdate="CASCADE"), nullable=True)
 
@@ -236,6 +236,18 @@ class Weighbridge(Base):
     Updated_at = Column(DateTime, nullable=False, default=datetime.datetime.utcnow, onupdate=datetime.datetime.utcnow)
     
     machine = relationship("Machine", back_populates="weighbridge")
+    
+    
+class Standardload(Base):
+    
+    __tablename__ = "standardload"
+    
+    Standard_Id = Column(Integer, primary_key=True , autoincrement=True)
+    Machine_Id = Column(Integer, ForeignKey("machine.Machine.Id", ondelete="CASCADE" , onupdate="CASCADE"), nullable=True)
+    Vehicle_Id = Column(Integer, ForeignKey("vehicle_type.Vehicle_Id", ondelete="CASCADE", onupdate="CASCADE"), nullable=True)
+    
+    Serial_NO = Column(String(100), nullable=True)
+    Contact_Number = Column(Integer, )
     
 
 Base.metadata.create_all(bind=engine)
