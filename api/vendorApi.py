@@ -32,7 +32,7 @@ def add_vendor():
         if not super_id or not vendor_name or not contact_number or not email or not address or not website or not  gst_number:
             return jsonify({
                 "message": " Super_id , Vendor_name, Contact_number, Email, Address, website and Gst_number are required.",
-                "seccess": True,
+                "seccess": False
             }), 400
             
         existing_vendor_name = session.query(Vendor).filter_by(Vendor_name=vendor_name).first()
@@ -61,7 +61,7 @@ def add_vendor():
         session.add(new_vendor)
         session.commit()
         return jsonify({
-            "message": "vendor added successfully",
+            "message": "Vendor added successfully",
             "success": True
         }), 200
         
@@ -196,7 +196,7 @@ def update_vendor(vendor_id):
             
         if email:
             vendor.Email = email
-            
+                
         if address:
             vendor.Address = address
         
