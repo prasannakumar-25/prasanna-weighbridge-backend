@@ -11,6 +11,7 @@ from api.partialDetailsApi import partialDarails_bp
 from api.weighBridgeApi import weighbridge_bp
 from api.ipCameraApi import ipcamera_bp
 from api.authuser import auth_user
+from api.standardloadApi import standardload_bp
 # from api.authAdminApi import auth_admin
 from dotenv import load_dotenv
 from extension import bcrypt,jwt
@@ -46,6 +47,7 @@ app.register_blueprint(partialDarails_bp)
 app.register_blueprint(weighbridge_bp)
 app.register_blueprint(ipcamera_bp)
 app.register_blueprint(auth_user)
+app.register_blueprint(standardload_bp)
 # app.register_blueprint(auth_admin)
 
 

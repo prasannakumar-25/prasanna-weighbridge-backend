@@ -242,7 +242,7 @@ def delete_machine(machine_id):
     session = SessionLocal()
     
     try:
-        machine = session.query(Machine). filter(Machine.Machine_Id == machine_id). first()
+        machine = session.query(Machine).filter(Machine.Machine_Id == machine_id).first()
         
         if not machine:
             return jsonify({

@@ -50,6 +50,7 @@ class Vendor(Base):
     customers = relationship("Customer", back_populates="vendor", cascade="all, delete-orphan")
     vehicles = relationship("VehicleType", back_populates="vendor", cascade="all, delete-orphan")
     weighments = relationship("WeighmentDetails", back_populates="vendor", cascade="all, delete-orphan")
+    standardloads = relationship("Standardload",back_populates="vendor",cascade="all, delete-orphan")
     
     
     
@@ -76,6 +77,7 @@ class Machine(Base):
     weighments = relationship("WeighmentDetails", back_populates="machine", cascade="all, delete-orphan")
     cameras = relationship("IPCamera", back_populates="machine", cascade="all, delete-orphan")
     weighbridge = relationship("Weighbridge", back_populates="machine",cascade="all, delete-orphan")
+    standardloads = relationship("Standardload",back_populates="machine",cascade="all, delete-orphan")
 
     
 class User(Base):
@@ -132,6 +134,7 @@ class VehicleType(Base):
     vendor = relationship("Vendor", back_populates="vehicles")
     customer = relationship("Customer", back_populates="vehicles")
     weighments = relationship("WeighmentDetails", back_populates="vehicle", cascade="all, delete-orphan")
+    standardloads = relationship("Standardload",back_populates="vehicle",cascade="all, delete-orphan")
 
     # Vehicle_number = Column(String(20), unique=True, nullable=False)
     # rfid_tag = Column(String(50), unique=True, nullable=True)
@@ -142,8 +145,8 @@ class WeighmentDetails(Base):
 
     Weighment_Id = Column(Integer, primary_key=True, autoincrement=True)
     Ticket_no = Column(String(20), unique=True, nullable=False)
-
-    Vendor_Id = Column(Integer, ForeignKey("vendor.Vendor_Id", ondelete="CASCADE", onupdate="CASCADE"), nullable=False)
+ 
+    Vendor_Id = Column(Integer, ForeignKey("vendor.Vendor_Id", ondelete="CASCADE", onupdate="CASCADE"), nullable=False)   
     Machine_Id = Column(Integer, ForeignKey("machine.Machine_Id", ondelete="CASCADE", onupdate="CASCADE"), nullable=False)
     Customer_Id = Column(Integer, ForeignKey("customer.Customer_Id", ondelete="CASCADE", onupdate="CASCADE"), nullable=True)
     Vehicle_Id = Column(Integer, ForeignKey("vehicle_type.Vehicle_Id", ondelete="CASCADE", onupdate="CASCADE"), nullable=True)
@@ -206,7 +209,6 @@ class IPCamera(Base):
 
     Mac_address = Column(String(50), nullable=False)
     # Model = Column(String(100), nullable=True)
-    # Firmware_version = Column(String(100), nullable=True)
     Status = Column(Enum('Online', 'Offline', 'Error', name='camera_status_enum'),nullable=False, default='Offline')
     Location = Column(String(150), nullable=False)
     Installed_date = Column(Date, nullable=False)
@@ -237,7 +239,37 @@ class Weighbridge(Base):
     
     machine = relationship("Machine", back_populates="weighbridge")
     
-
+    
+class Standardload(Base):
+    
+    __tablename__ = "standardload"
+    
+    Standard_Id = Column(Integer, primary_key=True , autoincrement=True)
+    Vendor_Id = Column(Integer, ForeignKey("vendor.Vendor_Id", ondelete="CASCADE", onupdate="CASCADE"), nullable=True)
+    Machine_Id = Column(Integer, ForeignKey("machine.Machine_Id", ondelete="CASCADE" , onupdate="CASCADE"), nullable=True)
+    Vehicle_Id= Column(Integer, ForeignKey("vehicle_type.Vehicle_Id", ondelete="CASCADE", onupdate="CASCADE"), nullable=True)
+    
+    Serial_No = Column(String(100), nullable=True)
+    Contact_Number = Column(String(15), nullable=False)
+    Vehicel_No = Column(String(12), nullable=False)
+    Vehicle_Type = Column(String(50), nullable=False)
+    Location = Column(String(125), nullable=False)
+    Material = Column(String(220), nullable=False)
+    Destination_Place = Column(String(220), nullable=True)
+    Supplier = Column(String(150), nullable=True)
+    Driver_Name = Column(String(150), nullable=False)
+    Product = Column(String(150), nullable=True)
+    Load_Type = Column(String(150), nullable=False)
+    Payment_Mode = Column(String(100), nullable=False)
+    
+    Created_at = Column(DateTime, nullable=False, default=datetime.datetime.utcnow)
+    Updated_at = Column(DateTime, nullable=False, default=datetime.datetime.utcnow, onupdate=datetime.datetime.utcnow)
+    
+        # ✅ Relationships
+    vendor = relationship("Vendor", back_populates="standardloads")
+    machine = relationship("Machine", back_populates="standardloads")
+    vehicle = relationship("VehicleType", back_populates="standardloads")
+    
 Base.metadata.create_all(bind=engine)
 print("Table created succussfully")
 
